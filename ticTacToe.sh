@@ -2,6 +2,7 @@
 
 echo " #### Welcome to Tic-Tac-Toe Game #### "
 
+
 declare -a board
 
 # Constant maximum cell
@@ -31,12 +32,12 @@ function  assignSymbol()
 		symbol=$((RANDOM%2))
 		if [[ $symbol -eq 1 ]]
 		then
-				player="user"
+				player="User"
 				echo "Your symbol is X "
 				user="X"
 				computer="O"
 		else
-				player="computer"
+				player="Computer"
 				echo "Your symbol is O "
 				user="O"
 				computer="X"
@@ -47,7 +48,7 @@ function  assignSymbol()
 # To know who play
 function switchPlayer()
 {
-   if [[ $player == "user" ]]
+   if [[ $player == "User" ]]
    then
       userPlay
 	else
@@ -58,6 +59,7 @@ function switchPlayer()
 #  For user play
 function userPlay()
 {
+		player="User"
 		if [[ $cell_Count -lt $max_Cell ]]
 		then
 				read -p "Enter Number Between 1 to 9:" position
@@ -73,13 +75,13 @@ function userPlay()
 				fi
 		computerPlay
 		else
-				echo "Game tie !!"
+				echo "  Game is Tie !!"
 				exit
 		fi
 }
 
 
-#function to check winning condition for Row Column and Diagonal
+# To check winning condition of Row,Column and Diagonal for user
 function rowColumnDiagonalWin()
 {
 		diagonal=0
@@ -91,29 +93,22 @@ function rowColumnDiagonalWin()
 					[[ ${board[$diagonal]} == ${board[$diagonal+4]} && ${board[$diagonal+4]} == ${board[$diagonal+8]} ]] ||
 					[[ ${board[$diagonal+2]} == ${board[$diagonal+4]} && ${board[$diagonal+4]} == ${board[$diagonal+6]} ]]
 				then
-						echo "$player Win"
+						echo " *** $player Win *** "
 						exit
 				fi
 		column=$((column+1))
 		done
 }
 
-# To check condition for computer
-function checkCondition()
-{
-		displayBoard
-		flag=1
-		((cell_Count++))
-}
-
 # For computer play
 
 function computerPlay()
 {
+		player="Computer"
 		flag=0
 		if [[ $cell_Count -lt $max_Cell ]]
 		then
-				echo "computer play"
+				echo "Computer play"
 				winBlockCondition $computer
 				winBlockCondition $user
 		if [ $flag -eq 0 ]
@@ -131,33 +126,44 @@ function computerPlay()
 		rowColumnDiagonalWin
 		userPlay
 		else
-				echo "Game tie !!"
+				echo "Game is Tie !!"
 				exit
 		fi
 }
-# To check Win condition for computer
 
-function winBlockCondition(){
-   local symbol=$1
-   if [ $flag -eq 0 ]
-   then
-      computerRowWin $symbol
-   fi
-   if [ $flag -eq 0 ]
-   then
-      computerColumnWin $symbol
-   fi
-   if [ $flag -eq 0 ]
-   then
-      computerDiagonalWin $symbol
-   fi
+# To check Win condition for computer
+function winBlockCondition()
+{
+		local symbol=$1
+		if [ $flag -eq 0 ]
+		then
+				computerRowWin $symbol
+		fi
+
+		if [ $flag -eq 0 ]
+		then
+				computerColumnWin $symbol
+		fi
+
+		if [ $flag -eq 0 ]
+		then
+				computerDiagonalWin $symbol
+		fi
+}
+
+# To check condition for computer
+function checkCondition()
+{
+		displayBoard
+		flag=1
+		((cell_Count++))
 }
 
 # To check Computer Row win
-
-function computerRowWin(){
+function computerRowWin()
+{
 		local symbol=$1
-		for((row=0;row<9;row=row+3))
+		for((row=0;row<7;row=row+3))
 		do
 				if [[ ${board[$row]} == $symbol && ${board[$row+1]} == $symbol && ${board[$row+2]} == $((row+3)) ]]
 				then
@@ -177,7 +183,8 @@ function computerRowWin(){
 
 # To check computer column Win
 
-function computerColumnWin(){
+function computerColumnWin()
+{
 		local symbol=$1
 		for((column=0;column<9;column=column+1))
 		do
@@ -199,7 +206,8 @@ function computerColumnWin(){
 
 # To check computer Diagonal Win
 
-function computerDiagonalWin(){
+function computerDiagonalWin()
+{
 		local symbol=$1
 		diagonal=0
 		if [[ ${board[$diagonal+2]} == $symbol && ${board[$diagonal+4]} == $symbol && ${board[$diagonal+6]} == $((diagonal+7)) ]]
@@ -263,11 +271,11 @@ function checkCenter()
 # To check sides for computer
 function checkSides() 
 {
-		for((i=0;i<8;i=i+2))
+		for((cell=0;cell<7;cell=$cell+2))
 		do
-				if [[ ${board[$i]} -eq $((i+1)) ]]
+				if [[ ${board[$cell]} -eq $((cell+1)) ]]
 				then
-						board[$i]=$computer
+						board[$cell]=$computer
 						checkCondition
 				fi
 		done
