@@ -248,6 +248,18 @@ function checkCorner()
 		done
 }
 
+
+# To check Center for computer
+function checkCenter()
+{
+		cell=0
+		if [[ ${board[$cell+4]} -eq $((cell+5)) ]]
+		then
+				board[$cell+4]=$computer
+				checkCondition
+		fi
+}
+
 #  Main function call
 displayBoard
 assignSymbol
