@@ -3,8 +3,15 @@
 echo " #### Welcome to Tic-Tac-Toe Game #### "
 
 declare -a board
+
+# Constant maximum cell
+max_Cell=9
+
+# Variable to count used cell
+cell_Count=0  
+
 # Reset board to start play
-#      1 2 3 4 5 6 7 8 9
+
 board=(1 2 3 4 5 6 7 8 9)
 
 # To display board
@@ -48,5 +55,14 @@ function switchPlayer(){
    fi
 }
 
+# To show Board condition
+function checkCondition()
+{
+   displayBoard
+   (( cell_Count++ ))
+}
+
 displayBoard
 assignSymbol
+switchPlayer
+checkCondition
