@@ -260,6 +260,19 @@ function checkCenter()
 		fi
 }
 
+# To check sides for computer
+function checkSides() 
+{
+		for((i=0;i<8;i=i+2))
+		do
+				if [[ ${board[$i]} -eq $((i+1)) ]]
+				then
+						board[$i]=$computer
+						checkCondition
+				fi
+		done
+}
+
 #  Main function call
 displayBoard
 assignSymbol
