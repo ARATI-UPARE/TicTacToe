@@ -37,5 +37,16 @@ function  assignSymbol()
 		fi
 }
 
+
+# To know who play
+function switchPlayer(){
+   if [[ $player == "user" ]]
+   then
+      userPlay
+   else
+      computerPlay
+   fi
+}
+
 displayBoard
 assignSymbol
